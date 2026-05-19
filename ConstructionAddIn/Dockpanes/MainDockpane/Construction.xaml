@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="ConstructionAddIn.Dockpanes.MainDockpane.ConstructionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"   
+             xmlns:ui="clr-namespace:ConstructionAddIn.Dockpanes.MainDockpane"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"                       
+             xmlns:uc01="clr-namespace:ConstructionAddIn.UserControls.Pipe" 
+             xmlns:uc02="clr-namespace:ConstructionAddIn.UserControls.CrossingHotTap" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{Binding Path=ui.ConstructionViewModel}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Material Design theme -->
+                <materialDesign:BundledTheme BaseTheme="Light"
+                                             PrimaryColor="Blue"
+                                             SecondaryColor="Lime" />
+
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <!-- REMOVE THIS LINE - it's causing the error -->
+                <!-- <extensions:DesignOnlyResourceDictionary Source="pack://application:,,,/ArcGIS.Desktop.Framework;component\Themes\Default.xaml"/> -->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:Card Grid.Row="0"
+                             Margin="0,0,0,12">
+
+            <TabControl Style="{StaticResource MaterialDesignFilledTabControl}"
+                        HorizontalContentAlignment="Left"
+                        materialDesign:TabAssist.HeaderBehavior="Scrolling"
+                        materialDesign:TabAssist.UseNavigationPanel="True"
+                        materialDesign:TabAssist.NavigationPanelPlacement="Right">
+
+                <TabItem Margin="0,0,0,0">
+                    <TabItem.Header>
+                        <TextBlock Text="Pipes"/>
+                    </TabItem.Header>
+                    <uc01:PipeView Margin="0,5,0,0"/>
+                </TabItem>
+                <TabItem Margin="0,0,0,0">
+                    <TabItem.Header>
+                        <TextBlock Text="C-H"/>
+                    </TabItem.Header>
+                    <uc02:CrossingHotTapView Margin="0,5,0,0"/>
+                </TabItem>
+                <TabItem Margin="0,0,0,0">
+                    <TabItem.Header>
+                        <TextBlock Text="Fittings"/>
+                    </TabItem.Header>
+                    <!-- Marwan Tap Here -->
+                </TabItem>
+
+            </TabControl>
+
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

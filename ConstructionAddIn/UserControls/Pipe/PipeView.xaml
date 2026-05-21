@@ -16,19 +16,78 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+    
+    
 
     <Grid  Margin="16,5,16,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TabControl Grid.Row="0" Margin="0,5,0,0" SelectedIndex="{Binding SelectedTabIndex}">
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
+            <TextBlock Text="Line Name"
+                       FontSize="15"
+                       Style="{DynamicResource MaterialDesignHeadline6TextBlock}" />
+            <TextBox Margin="0,8,0,0"
+                     Padding="10,0,10,0"
+                     Height="40"
+                     materialDesign:HintAssist.Hint="Enter line name"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     Text="{Binding SelectedPipeLineName}"/>
+        </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="0" Margin="0,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+               Margin="0,5,0,0"
+               Text="Project Name"
+               FontSize="15"
+               Style="{DynamicResource MaterialDesignHeadline6TextBlock}" />
+
+            <Grid Grid.Row="1" Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Column="0"
+                          Height="40"
+                          Padding="10,0,10,0"
+                          IsEditable="True"
+                          IsTextSearchEnabled="True"
+                          materialDesign:HintAssist.Hint="Enter name"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          Text="{Binding SelectedProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding ProjectsName}" />
+
+                <Button Grid.Column="1"
+                Width="40"
+                Height="40"
+                Margin="8,0,0,0"
+                Padding="0"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                Command="{Binding RefreshNames}"
+                ToolTip="Refresh">
+
+                    <materialDesign:PackIcon Kind="Refresh"
+                                     Width="20"
+                                     Height="20"/>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <TabControl Grid.Row="3" Margin="0,5,0,0" SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem Header="PePipe">
                 <!-- Drawer PePipe -->
                 <StackPanel Margin="0,0,0,0">
-                    <TextBlock Text="PePipe"
-                               Margin="0,5,0,8" 
+                    <TextBlock 
+                               Margin="0,-5,0,8" 
                                FontSize="15"
                                Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
 
@@ -108,8 +167,8 @@
             <TabItem Header="SteelPipe">
                 <!-- Drawer SteelPipe -->
                 <StackPanel Margin="0,0,0,0">
-                    <TextBlock Text="Steel Pipe"
-                               Margin="0,5,0,8" 
+                    <TextBlock 
+                               Margin="0,-5,0,8" 
                                FontSize="15"
                                Style="{DynamicResource MaterialDesignHeadline6TextBlock}" />
 

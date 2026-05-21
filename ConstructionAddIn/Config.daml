@@ -26,6 +26,7 @@
           <button refID="ConstructionAddIn_Dockpanes_MainDockpane_Construction_ShowButton" size="large" />
           <tool refID="ConstructionAddIn_Tools_RemovingTools_RemoveLineTool" size="large" />
           <tool refID="ConstructionAddIn_Tools_AddingTools_CreateLineTool" size="large" />
+          <tool refID="ConstructionAddIn_Tools_AddingTools_CreateCrossingTool" size="large" />
         </group>
       </groups>
       <controls>
@@ -37,6 +38,9 @@
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </tool>
         <tool id="ConstructionAddIn_Tools_AddingTools_CreateLineTool" caption="CreateLineTool" className="ConstructionAddIn.Tools.AddingTools.CreateLineTool" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" condition="esri_mapping_mapPane">
+          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
+        </tool>
+        <tool id="ConstructionAddIn_Tools_AddingTools_CreateCrossingTool" caption="CreateCrossingTool" className="ConstructionAddIn.Tools.AddingTools.CreateCrossingTool" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" condition="esri_mapping_mapPane">
           <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
         </tool>
       </controls>

@@ -1,4 +1,8 @@
-﻿using ConstructionAddIn.Helpers.LineHelpers;
+﻿using ArcGIS.Desktop.Framework;
+using ArcGIS.Desktop.Framework.Dialogs;
+using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.Mapping;
+using ConstructionAddIn.Helpers.LineHelpers;
 using ConstructionAddIn.Tools.RemovingTools;
 using System;
 using System.Collections.Generic;
@@ -14,14 +18,14 @@ namespace ConstructionAddIn.UserControls.Pipe
     {
         // Fields
         private string _pipeType;
-        private string _pipeDepth;
-        private string _pipePressure;
         private string _pipeWidth;
-        private string _projectName;
         private string _selectedProjectName;
-        private string _selectedPressure;
-        private int _selectedTabIndex;
-        private string _selectedClaimDate;
+        private string _selectedPipeLayerName = "pipes";
+        private string _selectedPipeLineName;
+        private int _selectedTabIndex = 0;
+
+        private ObservableCollection<string> _projectsName;
+        private ObservableCollection<string> _PipeLinesName;
 
 
         // Properties
@@ -37,30 +41,6 @@ namespace ConstructionAddIn.UserControls.Pipe
                 }
             }
         }
-        public string PipeDepth
-        {
-            get => _pipeDepth;
-            set
-            {
-                if (_pipeDepth != value)
-                {
-                    _pipeDepth = value;
-                    OnPropertyChanged(nameof(PipeDepth));
-                }
-            }
-        }
-        public string ProjectName
-        {
-            get => _projectName;
-            set
-            {
-                if (_projectName != value)
-                {
-                    _projectName = value;
-                    OnPropertyChanged(nameof(ProjectName));
-                }
-            }
-        }
         public string PipeWidth
         {
             get => _pipeWidth;
@@ -73,18 +53,6 @@ namespace ConstructionAddIn.UserControls.Pipe
                 }
             }
         }
-        public string PipePressure
-        {
-            get => _pipePressure;
-            set
-            {
-                if (_pipePressure != value)
-                {
-                    _pipePressure = value;
-                    OnPropertyChanged(nameof(PipePressure));
-                }
-            }
-        }
         public int SelectedTabIndex
         {
             get => _selectedTabIndex;
@@ -94,6 +62,8 @@ namespace ConstructionAddIn.UserControls.Pipe
                 {
                     _selectedTabIndex = value;
                     OnPropertyChanged(nameof(SelectedTabIndex));
+
+                    _ = LoadAttributeValuesAsync();
                 }
             }
         }
@@ -109,94 +79,173 @@ namespace ConstructionAddIn.UserControls.Pipe
                 }
             }
         }
+        public string SelectedPipeLayerName
+        {
+            get => _selectedPipeLayerName;
+            set
+            {
+                if (_selectedPipeLayerName != value)
+                {
+                    _selectedPipeLayerName = value;
+                    OnPropertyChanged(nameof(SelectedPipeLayerName));
+                    _ = LoadAttributeValuesAsync();
+                }
+            }
+        }
+        public string SelectedPipeLineName
+        {
+            get => _selectedPipeLineName;
+            set
+            {
+                if (_selectedPipeLineName != value)
+                {
+                    _selectedPipeLineName = value;
+                    OnPropertyChanged(nameof(SelectedPipeLineName));
+                }
+            }
+        }
+        public ObservableCollection<string> ProjectsName
+        {
+            get => _projectsName;
+            set
+            {
+                if (_projectsName != value)
+                {
+                    _projectsName = value;
+                    OnPropertyChanged(nameof(ProjectsName));
+                }
+            }
+        }
+        public ObservableCollection<string> PipeLinesName
+        {
+            get => _PipeLinesName;
+            set
+            {
+                if (_PipeLinesName != value)
+                {
+                    _PipeLinesName = value;
+                    OnPropertyChanged(nameof(PipeLinesName));
+                }
+            }
+        }
 
         // Commands
         public RelayCommand<string> StartDrawing { get; }
         public RelayCommand<string> DeleteLine { get; }
+        public RelayCommand RefreshNames { get; }
 
         public PipeViewModel()
         {
-            StartDrawing = new RelayCommand<string>(async width => await OnStartDrawing(width));
-            //DeleteLine = new RelayCommand<string>(async (layerName) =>
-            //{
-            //    RemoveLineContext.TargetLayerName = "PePipes";
+            ProjectsName = new ObservableCollection<string>();
 
-            //    await FrameworkApplication.SetCurrentToolAsync(
-            //        "FirstTryTest_Tools_RemovingTools_RemoveLineTool");
-            //});
-            //DeleteLine = new RelayCommand<string>(async (layerName) => await OnDeleteLine(layerName));
+            StartDrawing = new RelayCommand<string>(async width => await OnStartDrawing(width));
+            RefreshNames = new RelayCommand(async () => await LoadAttributeValuesAsync());
+            DeleteLine = new RelayCommand<string>(async (layerName) => await OnDeleteLine(layerName));
         }
 
         private async Task OnStartDrawing(string width)
         {
-            //    bool isFormValid =
-            //        !string.IsNullOrWhiteSpace(ProjectName) &&
-            //        !string.IsNullOrWhiteSpace(PipeDepth) &&
-            //        !string.IsNullOrWhiteSpace(PipePressure) &&
-            //        !string.IsNullOrWhiteSpace(width);
+            bool isFormValid =
+                !string.IsNullOrWhiteSpace(SelectedProjectName) &&
+                !string.IsNullOrWhiteSpace(SelectedPipeLineName) &&
+                !string.IsNullOrWhiteSpace(width);
 
-            //    if (isFormValid)
-            //    {
-            //        PipeWidth = width;
-            //    }
+            if (isFormValid)
+            {
+                PipeWidth = width;
+            }
 
-            //    if (!isFormValid)
-            //    {
-            //        MessageBox.Show("You must fill all the fields.");
-            //        return;
-            //    }
+            if (!isFormValid)
+            {
+                MessageBox.Show("You must fill all the fields.");
+                return;
+            }
 
-            //    var dto = new PipeDTO
-            //    {
-            //        ProjectName = SelectedProjectName,
-            //        Depth = PipeDepth,
-            //        Diameter = PipeWidth,
-            //        OPSPres = SelectedPressure,
-            //        HighOrLow = "عالي",
-            //        ClaimDate = SelectedClaimDate
-            //    };
+            var dto = new PipeDTO
+            {
+                LineName = SelectedPipeLineName,
+                ProjectName = SelectedProjectName,
+                PipeWidth = PipeWidth,
+                PipeMatrial = SelectedTabIndex == 0 ? "PE" : "Steel",
+            };
 
-            //    if (_selectedTabIndex == 0)
-            //    {
-            //        var request = PipeDtoMapper.ToPePipeRequest(dto);
-            //        LineDrawContext.CurrentRequest = request;
-            //    }
-            //    else if (_selectedTabIndex == 1)
-            //    {
-            //        var request = PipeDtoMapper.ToSteelPipeRequest(dto);
-            //        LineDrawContext.CurrentRequest = request;
-            //    }
 
-            //    //var request = PipeDtoMapper.ToPePipeRequest(dto);
-            //    //LineDrawContext.CurrentRequest = request;
+            var request = PipeDtoMapper.ToPipeRequest(dto);
+            LineDrawContext.CurrentRequest = request;
 
-            //    await FrameworkApplication.SetCurrentToolAsync("FirstTryTest_Tools_AddingTools_CreateLineTool");
-            //}
+            await FrameworkApplication.SetCurrentToolAsync("ConstructionAddIn_Tools_AddingTools_CreateLineTool");
+        }
 
-            //private async Task OnDeleteLine(string layerName)
-            //{
-            //    if (layerName == "PePipes")
-            //    {
-            //        RemoveLineContext.TargetLayerName = "PePipes";
-            //        await FrameworkApplication.SetCurrentToolAsync(
-            //            "FirstTryTest_Tools_RemovingTools_RemoveLineTool");
-            //    }
-            //    else
-            //    {
-            //        RemoveLineContext.TargetLayerName = "Steel";
-            //        await FrameworkApplication.SetCurrentToolAsync(
-            //            "FirstTryTest_Tools_RemovingTools_RemoveLineTool");
-            //    }
-            //}
+        private async Task OnDeleteLine(string layerName)
+        {
+            RemoveLineContext.TargetLayerName = "pipes";
+            await FrameworkApplication.SetCurrentToolAsync(
+                "FirstTryTest_Tools_RemovingTools_RemoveLineTool");
         }
 
 
-            // Notify Property Changed
+        // Helps
+
+        // Notify Property Changed
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private async Task LoadAttributeValuesAsync()
+        {
+            //ProjectsName.Clear();
+            //PipeLinesName.Clear();
+
+            if (string.IsNullOrWhiteSpace(SelectedPipeLayerName))
+                return;
+
+            var mapView = MapView.Active;
+            if (mapView?.Map == null)
+                return;
+
+            var result = await QueuedTask.Run(() =>
+            {
+                var pipeLinesNames = new HashSet<string>();
+                var projectsNames = new HashSet<string>();
+
+                var layer = mapView.Map
+                    .GetLayersAsFlattenedList()
+                    .OfType<FeatureLayer>()
+                    .FirstOrDefault(l =>
+                        string.Equals(l.Name, SelectedPipeLayerName, StringComparison.OrdinalIgnoreCase));
+
+                if (layer == null)
+                    return (pipeLinesNames, projectsNames);
+
+                using (var cursor = layer.Search())
+                {
+                    while (cursor.MoveNext())
+                    {
+                        using (var feature = cursor.Current as ArcGIS.Core.Data.Feature)
+                        {
+                            if (feature == null)
+                                continue;
+
+                            var p = feature["ProjectName"];
+
+                            if (p != null && p != DBNull.Value)
+                                projectsNames.Add(p.ToString());
+                        }
+                    }
+                }
+
+                return (pipeLinesNames, projectsNames);
+            });
+
+            foreach (var p in result.projectsNames
+                                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                                    .OrderBy(x => x))
+            {
+                ProjectsName.Add(p);
+            }
         }
     }
 }

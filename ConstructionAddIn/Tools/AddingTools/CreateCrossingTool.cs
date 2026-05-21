@@ -1,44 +1,42 @@
 ﻿using ArcGIS.Core.CIM;
+using ArcGIS.Core.Data;
 using ArcGIS.Core.Geometry;
+using ArcGIS.Desktop.Catalog;
 using ArcGIS.Desktop.Core;
 using ArcGIS.Desktop.Editing;
+using ArcGIS.Desktop.Extensions;
 using ArcGIS.Desktop.Framework;
+using ArcGIS.Desktop.Framework.Contracts;
 using ArcGIS.Desktop.Framework.Dialogs;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
+using ArcGIS.Desktop.KnowledgeGraph;
+using ArcGIS.Desktop.Layouts;
 using ArcGIS.Desktop.Mapping;
 using ConstructionAddIn.Helpers;
 using ConstructionAddIn.Helpers.LineHelpers;
 using ConstructionAddIn.Helpers.PolygonHelpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ConstructionAddIn.Tools.AddingTools
 {
-    /// <summary>
-    /// A map tool that allows the user to sketch a line on the map and create
-    /// a new feature in a target line layer.
-    ///
-    /// The tool can also:
-    /// 1. Read attribute values from a polygon at the end of the drawn line.
-    /// 2. Merge those polygon attributes with predefined request attributes.
-    /// 3. Filter attributes so only editable fields are written to the target layer.
-    /// 4. Save the created feature and switch back to the Explore tool.
-    /// </summary>
-    internal class CreateLineTool : MapTool
+    internal class CreateCrossingTool : MapTool
     {
         #region Constructor
 
         /// <summary>
         /// Initializes the tool configuration.
         /// </summary>
-        public CreateLineTool()
+        public CreateCrossingTool()
         {
             // This tool uses a user sketch to create geometry.
             IsSketchTool = true;
 
             // The user will draw a line.
-            SketchType = SketchGeometryType.Line;
+            SketchType = SketchGeometryType.AngledEllipse;
 
             // The sketch geometry is returned in map coordinates.
             SketchOutputMode = SketchOutputMode.Map;
@@ -96,12 +94,16 @@ namespace ConstructionAddIn.Tools.AddingTools
 
         protected override async Task<bool> OnSketchCompleteAsync(Geometry geometry)
         {
-            // Validate that the sketch is a non-empty polyline.
-            if (geometry is not Polyline polyline || polyline.IsEmpty)
+            // Validate that the sketch is a non-empty polygon
+            // because AngledEllipse returns Polygon geometry.
+            if (geometry is not Polygon polygon || polygon.IsEmpty)
             {
-                MessageBox.Show("The sketch is not a valid line.");
+                MessageBox.Show("The sketch is not a valid ellipse.");
                 return false;
             }
+
+            // Convert polygon boundary to polyline
+            var polyline = PolylineBuilderEx.CreatePolyline(polygon.Parts);
 
             // Ensure the drawing request exists.
             var request = LineDrawContext.CurrentRequest;
@@ -111,26 +113,33 @@ namespace ConstructionAddIn.Tools.AddingTools
                 return false;
             }
 
-            // Create the feature on the MCT (main CIM thread) using QueuedTask.
-            bool created = await QueuedTask.Run(() => CreateLineFeature(polyline, request));
+            // Create the feature on the MCT
+            bool created = await QueuedTask.Run(() =>
+                CreateLineFeature(polyline, request));
 
             if (!created)
                 return false;
 
-            // Save edits after a successful create operation.
+            // Save edits after successful create
             bool saved = await Project.Current.SaveEditsAsync();
+
             if (!saved)
             {
-                MessageBox.Show("Line was created, but saving edits failed.", "Save failed");
+                MessageBox.Show(
+                    "Line was created, but saving edits failed.",
+                    "Save failed");
+
                 return false;
             }
 
-            // Cleanup after success.
+            // Cleanup after success
             LineDrawContext.Clear();
+
             ClearingFormContext.ResetFormAction?.Invoke();
 
-            // Return to the default Explore tool.
-            _ = FrameworkApplication.SetCurrentToolAsync("esri_mapping_exploreTool");
+            // Return to Explore tool
+            _ = FrameworkApplication.SetCurrentToolAsync(
+                "esri_mapping_exploreTool");
 
             return true;
         }

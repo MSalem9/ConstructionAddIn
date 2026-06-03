@@ -22,6 +22,7 @@ namespace ConstructionAddIn.UserControls.Pipe
         private string _selectedProjectName;
         private string _selectedPipeLayerName = "pipes";
         private string _selectedPipeLineName;
+        private string _optionalDetails;
         private int _selectedTabIndex = 0;
 
         private ObservableCollection<string> _projectsName;
@@ -104,6 +105,18 @@ namespace ConstructionAddIn.UserControls.Pipe
                 }
             }
         }
+        public string OptionalDetails 
+        {
+            get => _optionalDetails;
+            set 
+            {
+                if (_optionalDetails != value) 
+                {
+                    _optionalDetails = value;
+                    OnPropertyChanged(nameof(OptionalDetails));
+                }
+            }
+        }
         public ObservableCollection<string> ProjectsName
         {
             get => _projectsName;
@@ -167,6 +180,7 @@ namespace ConstructionAddIn.UserControls.Pipe
                 ProjectName = SelectedProjectName,
                 PipeWidth = PipeWidth,
                 PipeMatrial = SelectedTabIndex == 0 ? "PE" : "Steel",
+                OptionalDetails = OptionalDetails
             };
 
 

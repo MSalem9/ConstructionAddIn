@@ -123,7 +123,7 @@
 
                         <Button Grid.Row="0" Grid.Column="1"
                                      Margin="3,6,6,6" Height="60"
-                                     Command="{Binding DeleteLine}" CommandParameter="Crossing"
+                                     Command="{Binding DeleteLine}" CommandParameter="CrossingNew"
                                      Style="{StaticResource MaterialDesignRaisedButton}"
                                      Background="#D32F2F"
                                      Foreground="White"

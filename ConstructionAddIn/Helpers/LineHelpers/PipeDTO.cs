@@ -14,5 +14,6 @@ namespace ConstructionAddIn.Helpers.LineHelpers
         public string LoopCode { get; set; }
         public string PipeMatrial { get; set; }
         public string PipePRS { get; set; }
+        public string OptionalDetails { get; set; }
     }
 }

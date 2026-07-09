@@ -24,7 +24,7 @@ namespace ConstructionAddIn.Helpers.LineHelpers
                 }
             };
         }
-        public static LineDrawRequest ToCrossingRequest(CrossingDTO dto)
+        public static LineDrawRequest ToCrossingRequest(CrossingHotTapDTO dto)
         {
             return new LineDrawRequest
             {
@@ -38,7 +38,7 @@ namespace ConstructionAddIn.Helpers.LineHelpers
                 }
             };
         }
-        //public static LineDrawRequest ToHotTapRequest(CrossingDTO dto)
+        //public static LineDrawRequest ToHotTapRequest(CrossingHotTapDTO dto)
         //{
         //    return new LineDrawRequest
         //    {

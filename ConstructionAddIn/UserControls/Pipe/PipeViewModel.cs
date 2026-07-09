@@ -194,7 +194,7 @@ namespace ConstructionAddIn.UserControls.Pipe
         {
             RemoveLineContext.TargetLayerName = "pipes";
             await FrameworkApplication.SetCurrentToolAsync(
-                "FirstTryTest_Tools_RemovingTools_RemoveLineTool");
+                "ConstructionAddIn_Tools_RemovingTools_RemoveLineTool");
         }
 
 
@@ -260,6 +260,14 @@ namespace ConstructionAddIn.UserControls.Pipe
             {
                 ProjectsName.Add(p);
             }
+        }
+        /// <summary>
+        /// Resets the internal tool state.
+        /// </summary>
+        private void ResetToolState()
+        {
+            SelectedPipeLineName = null;
+            OptionalDetails = null;
         }
     }
 }

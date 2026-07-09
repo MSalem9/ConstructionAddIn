@@ -192,7 +192,7 @@
                                 Height="30"
                                 Content="Delete PePipe"
                                 Command="{Binding DeleteLine}"
-                                CommandParameter="PePipes"
+                                CommandParameter="pipes"
                                 FontSize="17"
                                 Style="{StaticResource MaterialDesignRaisedButton}"
                                 Background="#D32F2F"

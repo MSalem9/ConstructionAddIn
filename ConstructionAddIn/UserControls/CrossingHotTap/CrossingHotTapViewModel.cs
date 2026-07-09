@@ -3,20 +3,22 @@ using ArcGIS.Desktop.Framework.Dialogs;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
 using ArcGIS.Desktop.Mapping;
 using ConstructionAddIn.Helpers.LineHelpers;
+using ConstructionAddIn.Helpers.PointHelpers;
+using ConstructionAddIn.Helpers.PointHelpers.HotTap;
+using ConstructionAddIn.Tools.RemoveTools;
 using ConstructionAddIn.Tools.RemovingTools;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ConstructionAddIn.UserControls.CrossingHotTap
 {
     public class CrossingHotTapViewModel : INotifyPropertyChanged
     {
-            
+
         // Fields
         private string _name;
         private string _selectedProjectName;
@@ -144,34 +146,43 @@ namespace ConstructionAddIn.UserControls.CrossingHotTap
                 return;
             }
 
-            var dto = new CrossingDTO
+            var dto = new CrossingHotTapDTO
             {
                 Name = Name,
                 LineName = SelectedPipeLineName,
                 ProjectName = SelectedProjectName,
             };
 
-            if (SelectedTabIndex ==0)
+            if (SelectedTabIndex == 0)
             {
                 var request = PipeDtoMapper.ToCrossingRequest(dto);
                 LineDrawContext.CurrentRequest = request;
+
+                await FrameworkApplication.SetCurrentToolAsync("ConstructionAddIn_Tools_AddingTools_CreateCrossingTool");
             }
-            else 
+            else
             {
-                //var request = PipeDtoMapper.ToPipeRequest(dto);
-                //LineDrawContext.CurrentRequest = request;
+                PointDrawContext.CurrentRequest = HotTapDTOMapper.CreateRequest(dto);
 
-                return;
+                await FrameworkApplication.SetCurrentToolAsync("ConstructionAddIn_Tools_AddingTools_CreatePointFeatureTool");
             }
-
-            await FrameworkApplication.SetCurrentToolAsync("ConstructionAddIn_Tools_AddingTools_CreateCrossingTool");
         }
 
         private async Task OnDeleteLine(string layerName)
         {
-            RemoveLineContext.TargetLayerName = "CrossingNew";
-            await FrameworkApplication.SetCurrentToolAsync(
-                "FirstTryTest_Tools_RemovingTools_RemoveLineTool");
+            if (SelectedTabIndex == 0)
+            {
+                RemoveLineContext.TargetLayerName = "CrossingNew";
+
+                await FrameworkApplication.SetCurrentToolAsync(
+                     "ConstructionAddIn_Tools_RemovingTools_RemoveLineTool");
+            }
+            else
+            {
+                var request = HotTapDTOMapper.CreateDeleteRequest();
+
+                await RemovePointFeatureTool.StartAsync(request);
+            }
         }
 
 

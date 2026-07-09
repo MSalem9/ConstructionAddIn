@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="ConstructionAddIn.UserControls.Fittings.FittingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ConstructionAddIn.UserControls.Fittings"
+             xmlns:ballValve1Vent="clr-namespace:ConstructionAddIn.UserControls.Fittings.BallValve1Vent"
+             xmlns:reducer="clr-namespace:ConstructionAddIn.UserControls.Fittings.Reducer"
+             xmlns:valve1VentPecat="clr-namespace:ConstructionAddIn.UserControls.Fittings.Valve1VentPecat"
+             xmlns:valve2VentsPecat="clr-namespace:ConstructionAddIn.UserControls.Fittings.Valve2VentsPecat"
+             xmlns:valvePecat="clr-namespace:ConstructionAddIn.UserControls.Fittings.ValvePecat"
+             xmlns:valveRegulator="clr-namespace:ConstructionAddIn.UserControls.Fittings.ValveRegulator"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="500"
+             d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Light"
+                                             PrimaryColor="Blue"
+                                             SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:FittingsViewModel x:Key="Vm"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="16,5,16,5"
+          DataContext="{StaticResource Vm}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+
+            <TextBlock Text="Fittings"
+                       Margin="0,5,0,8"
+                       FontSize="15"
+                       Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
+
+            <Button Height="36"
+                    Margin="5,0,0,10"
+                    Command="{Binding FlipSelectedCommand}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}">
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <materialDesign:PackIcon Kind="SwapHorizontal"
+                                             Width="20"
+                                             Height="20"
+                                             Margin="0,0,6,0"/>
+                    <TextBlock Text="Flip Selected"/>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                ClipToBounds="True">
+
+            <ScrollViewer Height="420"
+                          VerticalScrollBarVisibility="Visible"
+                          HorizontalScrollBarVisibility="Disabled"
+                          CanContentScroll="False">
+
+                <StackPanel>
+                    <valveRegulator:ValveRegulatorView Margin="0,0,0,10"/>
+                    <valvePecat:ValvePecatView Margin="0,0,0,10"/>
+                    <valve1VentPecat:Valve1VentPecatView Margin="0,0,0,10"/>
+                    <ballValve1Vent:BallValve1VentView Margin="0,0,0,10"/>
+                    <valve2VentsPecat:Valve2VentsPecatView Margin="0,0,0,10"/>
+                    <reducer:ReducerView Margin="0,0,0,70"/>
+                </StackPanel>
+
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

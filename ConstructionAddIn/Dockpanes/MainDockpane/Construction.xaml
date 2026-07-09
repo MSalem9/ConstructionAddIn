@@ -8,6 +8,7 @@
              xmlns:controls="clr-namespace:ArcGIS.Desktop.Framework.Controls;assembly=ArcGIS.Desktop.Framework"                       
              xmlns:uc01="clr-namespace:ConstructionAddIn.UserControls.Pipe" 
              xmlns:uc02="clr-namespace:ConstructionAddIn.UserControls.CrossingHotTap" 
+             xmlns:uc03="clr-namespace:ConstructionAddIn.UserControls.Fittings" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{Binding Path=ui.ConstructionViewModel}">
@@ -27,7 +28,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <materialDesign:Card Grid.Row="0"
@@ -55,11 +56,18 @@
                     <TabItem.Header>
                         <TextBlock Text="Fittings"/>
                     </TabItem.Header>
-                    <!-- Marwan Tap Here -->
+                    <uc03:FittingsView Margin="0,5,0,0"/>
                 </TabItem>
 
             </TabControl>
 
         </materialDesign:Card>
+        
+        <TextBlock Grid.Row="1"
+               Margin="10,0,0,0"
+               Text="06V.06.17"
+               Foreground="Gray"
+               FontSize="12"
+               Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
     </Grid>
 </UserControl>

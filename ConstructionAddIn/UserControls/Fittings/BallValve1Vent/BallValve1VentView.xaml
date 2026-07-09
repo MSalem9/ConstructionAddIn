@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="ConstructionAddIn.UserControls.Fittings.BallValve1Vent.BallValve1VentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:ConstructionAddIn.UserControls.Fittings.BallValve1Vent"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="90"
+             d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:BallValve1VentViewModel/>
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Light"
+                                         PrimaryColor="Blue"
+                                         SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="FittingButtonTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Column="0"
+                Margin="6,6,3,6"
+                Height="82"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                Command="{Binding DrawCommand}"
+                CommandParameter="">
+            <StackPanel Orientation="Vertical"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,5">
+
+                    <Canvas Width="40" Height="30" Margin="0,0,8,0">
+                        <Ellipse Width="28" Height="28"
+                                 Stroke="Black"
+                                 StrokeThickness="4"
+                                 Canvas.Left="6"
+                                 Canvas.Top="1"/>
+                        <Line X1="10" Y1="5" X2="30" Y2="25"
+                              Stroke="Black"
+                              StrokeThickness="4"/>
+                        <Line X1="30" Y1="5" X2="10" Y2="25"
+                              Stroke="Black"
+                              StrokeThickness="4"/>
+                    </Canvas>
+
+                    <Canvas Width="70" Height="28" Margin="0,0,8,0">
+                        <Rectangle Width="6" Height="24" Fill="Black" Canvas.Left="0" Canvas.Top="2"/>
+                        <Polygon Fill="Black" Points="18,2 35,14 18,26"/>
+                        <Polygon Fill="Black" Points="52,2 35,14 52,26"/>
+                        <Rectangle Width="6" Height="24" Fill="Black" Canvas.Left="64" Canvas.Top="2"/>
+                    </Canvas>
+
+                    <Canvas Width="28" Height="32">
+                        <Line X1="14" Y1="0" X2="14" Y2="32"
+                              Stroke="Black"
+                              StrokeThickness="4"/>
+                        <Polygon Fill="Black" Points="4,0 24,0 14,10"/>
+                        <Polygon Fill="Black" Points="4,32 24,32 14,22"/>
+                    </Canvas>
+                </StackPanel>
+
+                <TextBlock Text="Ball - Valve - (1)Vent"
+                           Style="{StaticResource FittingButtonTextStyle}"/>
+            </StackPanel>
+        </Button>
+
+        <Button Grid.Column="1"
+                Margin="3,6,6,6"
+                Height="82"
+                Command="{Binding DeleteCommand}"
+                CommandParameter=""
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Background="#D32F2F"
+                Foreground="White"
+                BorderBrush="#D32F2F">
+            <materialDesign:PackIcon Kind="Delete" Width="24" Height="24"/>
+        </Button>
+    </Grid>
+</UserControl>

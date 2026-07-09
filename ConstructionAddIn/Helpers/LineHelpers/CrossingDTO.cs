@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConstructionAddIn.Helpers.LineHelpers
 {
-    public class CrossingDTO
+    public class CrossingHotTapDTO
     {
         public string Name { get; set; }
         public string LineName { get; set; }

@@ -15,5 +15,6 @@ namespace ConstructionAddIn.Helpers.LineHelpers
         public string PipeMatrial { get; set; }
         public string PipePRS { get; set; }
         public string OptionalDetails { get; set; }
+        public string Comments { get; set; }
     }
 }

@@ -54,7 +54,8 @@ namespace ConstructionAddIn.Services
 
                 var angle = ConstructionAngleService.GetArithmeticAngle(
                     firstPipe.Geometry,
-                    mapPoint);
+                    mapPoint,
+                    0);
 
                 attributes["CODE"] = null;
                 attributes["FUSION"] = null;

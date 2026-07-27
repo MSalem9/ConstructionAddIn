@@ -1,4 +1,5 @@
 ﻿using ArcGIS.Core.Geometry;
+using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Contracts;
 using ArcGIS.Desktop.Mapping;
 using ConstructionAddIn.Helpers.PointHelpers;
@@ -69,6 +70,8 @@ namespace ConstructionAddIn.Tools.AddingTools
 
             if (!request.KeepToolActiveAfterCreate)
                 PointDrawContext.CurrentRequest = null;
+
+            _ = FrameworkApplication.SetCurrentToolAsync("esri_mapping_exploreTool");
 
             return created;
         }

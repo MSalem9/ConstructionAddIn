@@ -20,7 +20,8 @@ namespace ConstructionAddIn.Helpers.LineHelpers
                     ["ProjectName"] = dto.ProjectName,
                     ["Diameter"] = dto.PipeWidth,
                     ["PipeMatl"] = dto.PipeMatrial,
-                    ["Details"] = dto.OptionalDetails
+                    ["Details"] = dto.OptionalDetails,
+                    ["Comments"] = dto.Comments
                 }
             };
         }

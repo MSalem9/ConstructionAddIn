@@ -26,11 +26,19 @@ namespace ConstructionAddIn.Services
             return NormalizeDiameter(diameter) switch
             {
                 "3" => "5/8\" x 110 mm",
+                "4" => "5/8\" x 110 mm",
                 "6" => "3/4\" x 110 mm",
                 "8" => "3/4\" x 110 mm",
                 "10" => "7/8\" x 110 mm",
                 "12" => "7/8\" x 110 mm",
                 "16" => "7/8\" x 110 mm",
+
+                "90" => "5/8\" x 110 mm",
+                "125" => "5/8\" x 110 mm",
+                "180" => "3/4\" x 110 mm",
+                "250" => "3/4\" x 110 mm",
+                "315" => "7/8\" x 110 mm",
+                "355" => "7/8\" x 110 mm",
                 _ => null
             };
         }
@@ -44,11 +52,19 @@ namespace ConstructionAddIn.Services
             return NormalizeDiameter(diameter) switch
             {
                 "3" => "5/8\" x 120 mm",
+                "4" => "5/8\" x 120 mm",
                 "6" => "3/4\" x 120 mm",
                 "8" => "3/4\" x 120 mm",
                 "10" => "7/8\" x 120 mm",
                 "12" => "7/8\" x 120 mm",
                 "16" => "7/8\" x 120 mm",
+               
+                "90" => "5/8\" x 120 mm",
+                "125" => "5/8\" x 120 mm",
+                "180" => "3/4\" x 120 mm",
+                "250" => "3/4\" x 120 mm",
+                "315" => "7/8\" x 120 mm",
+                "355" => "7/8\" x 120 mm",
                 _ => null
             };
         }
@@ -64,10 +80,18 @@ namespace ConstructionAddIn.Services
             return NormalizeDiameter(diameter) switch
             {
                 "3" => 8,
+                "4" => 8,
                 "6" => 16,
                 "8" => 16,
                 "10" => 24,
                 "12" => 24,
+
+                "90" => 8,
+                "125" => 8,
+                "180" => 16,
+                "250" => 16,
+                "315" => 24,
+                "355" => 24,
                 _ => null
             };
         }

@@ -20,15 +20,13 @@
             <ResourceDictionary.MergedDictionaries>
 
                 <materialDesign:BundledTheme
-                BaseTheme="Light"
-                PrimaryColor="Blue"
-                SecondaryColor="Lime" />
+                    BaseTheme="Light"
+                    PrimaryColor="Blue"
+                    SecondaryColor="Lime" />
 
-                <ResourceDictionary
-                Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
 
-                <ResourceDictionary
-                Source="/ConstructionAddIn;component/Styles/ScrollBarStyles.xaml" />
+                <ResourceDictionary Source="/ConstructionAddIn;component/Styles/ScrollBarStyles.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -40,13 +38,13 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Scrollable main content -->
+        <!--  Scrollable main content  -->
         <ScrollViewer
-            Style="{StaticResource RoundedScrollViewerStyle}"
             Grid.Row="0"
+            CanContentScroll="False"
             HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto"
-            CanContentScroll="False">
+            Style="{StaticResource RoundedScrollViewerStyle}"
+            VerticalScrollBarVisibility="Auto">
 
             <materialDesign:Card Margin="0,0,0,12">
 
@@ -58,7 +56,7 @@
                     materialDesign:TabAssist.UseNavigationPanel="True"
                     Style="{StaticResource MaterialDesignFilledTabControl}">
 
-                    <!-- Pipes -->
+                    <!--  Pipes  -->
                     <TabItem Margin="0">
                         <TabItem.Header>
                             <TextBlock Text="Pipes" />
@@ -67,7 +65,7 @@
                         <uc01:PipeView Margin="0,5,0,0" />
                     </TabItem>
 
-                    <!-- Crossing / Hot Tap -->
+                    <!--  Crossing / Hot Tap  -->
                     <TabItem Margin="0">
                         <TabItem.Header>
                             <TextBlock Text="C-H" />
@@ -76,7 +74,7 @@
                         <uc02:CrossingHotTapView Margin="0,5,0,0" />
                     </TabItem>
 
-                    <!-- Fittings -->
+                    <!--  Fittings  -->
                     <TabItem Margin="0">
                         <TabItem.Header>
                             <TextBlock Text="Fittings" />
@@ -89,7 +87,7 @@
             </materialDesign:Card>
         </ScrollViewer>
 
-        <!-- Fixed version text -->
+        <!--  Fixed version text  -->
         <TextBlock
             Grid.Row="1"
             Margin="10,0,0,4"

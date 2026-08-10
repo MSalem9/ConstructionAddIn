@@ -94,6 +94,6 @@
             FontSize="12"
             Foreground="Gray"
             Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
-            Text="08V.07.20" />
+            Text="09V.08.10" />
     </Grid>
 </UserControl>

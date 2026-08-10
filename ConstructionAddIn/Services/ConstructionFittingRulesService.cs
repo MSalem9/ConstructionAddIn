@@ -31,6 +31,7 @@ namespace ConstructionAddIn.Services
                 "8" => "3/4\" x 110 mm",
                 "10" => "7/8\" x 110 mm",
                 "12" => "7/8\" x 110 mm",
+                "14" => "7/8\" x 110 mm",
                 "16" => "7/8\" x 110 mm",
 
                 "90" => "5/8\" x 110 mm",
@@ -57,6 +58,7 @@ namespace ConstructionAddIn.Services
                 "8" => "3/4\" x 120 mm",
                 "10" => "7/8\" x 120 mm",
                 "12" => "7/8\" x 120 mm",
+                "14" => "7/8\" x 120 mm",
                 "16" => "7/8\" x 120 mm",
                
                 "90" => "5/8\" x 120 mm",
@@ -85,6 +87,8 @@ namespace ConstructionAddIn.Services
                 "8" => 16,
                 "10" => 24,
                 "12" => 24,
+                "14" => 24,
+                "16" => 24,
 
                 "90" => 8,
                 "125" => 8,

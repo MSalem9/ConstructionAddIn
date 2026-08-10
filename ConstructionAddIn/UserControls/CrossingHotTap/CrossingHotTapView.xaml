@@ -36,7 +36,7 @@
             <!-- Header -->
             <Border
                 Grid.Row="0"
-                Margin="5,0,5,8"
+                Margin="0,0,0,8"
                 Padding="10,6"
                 Background="#E61976D2"
                 BorderBrush="#991976D2"
@@ -100,7 +100,7 @@
             </Border>
 
             <!-- Crossing and project information -->
-            <TreeView
+            <!--<TreeView
                 Grid.Row="1"
                 Margin="-50,0,-2,0"
                 HorizontalAlignment="Stretch"
@@ -149,10 +149,11 @@
                                     Text="Crossing Data" />
                             </StackPanel>
                         </ToggleButton>
-                    </TreeViewItem.Header>
+                    </TreeViewItem.Header>-->
 
                     <Border
                         Padding="10"
+                        Grid.Row="1"
                         Background="#F1F8FF"
                         BorderBrush="#1976D2"
                         BorderThickness="1"
@@ -297,11 +298,11 @@
                             </StackPanel>
                         </Grid>
                     </Border>
-                </TreeViewItem>
-            </TreeView>
+                <!--</TreeViewItem>
+            </TreeView>-->
 
             <!-- Drawing actions -->
-            <TreeView
+            <!--<TreeView
                 Grid.Row="2"
                 Margin="-50,0,-2,0"
                 HorizontalAlignment="Stretch"
@@ -350,12 +351,14 @@
                                     Text="Drawing Actions" />
                             </StackPanel>
                         </ToggleButton>
-                    </TreeViewItem.Header>
+                    </TreeViewItem.Header>-->
 
                     <Border
                         Padding="10"
                         Background="#F1F8FF"
                         BorderBrush="#1976D2"
+                        Grid.Row="2"
+                        Margin="0,10,0,0"
                         BorderThickness="1"
                         CornerRadius="12">
 
@@ -538,8 +541,8 @@
                             </TabItem>
                         </TabControl>
                     </Border>
-                </TreeViewItem>
-            </TreeView>
+                <!--</TreeViewItem>
+            </TreeView>-->
         </Grid>
     </ScrollViewer>
 </UserControl>

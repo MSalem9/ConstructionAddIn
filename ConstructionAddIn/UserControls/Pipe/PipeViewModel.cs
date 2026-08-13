@@ -11,6 +11,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArcGIS.Core.Data;
+using ArcGIS.Desktop.Editing;
+using ArcGIS.Desktop.Editing.Attributes;
 
 namespace ConstructionAddIn.UserControls.Pipe
 {
@@ -307,6 +310,7 @@ namespace ConstructionAddIn.UserControls.Pipe
         public RelayCommand StartDrawing { get; }
         public RelayCommand<string> DeleteLine { get; }
         public RelayCommand RefreshNames { get; }
+        public RelayCommand ConvertToExist { get; }
 
         public PipeViewModel()
         {
@@ -314,6 +318,7 @@ namespace ConstructionAddIn.UserControls.Pipe
             StartDrawing = new RelayCommand(async () => await OnStartDrawing());
             RefreshNames = new RelayCommand(async () => await LoadAttributeValuesAsync());
             DeleteLine = new RelayCommand<string>(async (layerName) => await OnDeleteLine(layerName));
+            ConvertToExist = new RelayCommand(async () => await OnConvertToExist());
         }
 
         private async Task OnStartDrawing()
@@ -423,6 +428,210 @@ namespace ConstructionAddIn.UserControls.Pipe
                                     .OrderBy(x => x))
             {
                 ProjectsName.Add(p);
+            }
+        }
+        private async Task OnConvertToExist()
+        {
+            // ============================================================
+            // SETTINGS
+            // Change these if your actual layer/field names are different
+            // ============================================================
+            const string LAYER_NAME = "pipes";
+            const string FIELD_NAME = "Details";
+            // ============================================================
+
+            var mapView = MapView.Active;
+
+            if (mapView?.Map == null)
+            {
+                MessageBox.Show(
+                    "No active map is open.",
+                    "Convert To Exist");
+
+                return;
+            }
+
+            try
+            {
+                string resultMessage = await QueuedTask.Run(() =>
+                {
+                    // ----------------------------------------------------
+                    // Find the pipe layer
+                    // ----------------------------------------------------
+                    FeatureLayer layer = mapView.Map
+                        .GetLayersAsFlattenedList()
+                        .OfType<FeatureLayer>()
+                        .FirstOrDefault(l =>
+                            string.Equals(
+                                l.Name,
+                                LAYER_NAME,
+                                StringComparison.OrdinalIgnoreCase));
+
+                    if (layer == null)
+                    {
+                        return $"Layer '{LAYER_NAME}' was not found.";
+                    }
+
+                    // ----------------------------------------------------
+                    // Check that field exists
+                    // ----------------------------------------------------
+                    string actualFieldName;
+
+                    using (Table table = layer.GetTable())
+                    using (TableDefinition definition = table.GetDefinition())
+                    {
+                        Field field = definition
+                            .GetFields()
+                            .FirstOrDefault(f =>
+                                string.Equals(
+                                    f.Name,
+                                    FIELD_NAME,
+                                    StringComparison.OrdinalIgnoreCase));
+
+                        if (field == null)
+                        {
+                            return
+                                $"Field '{FIELD_NAME}' was not found " +
+                                $"in layer '{LAYER_NAME}'.";
+                        }
+
+                        if (field.FieldType != FieldType.String)
+                        {
+                            return
+                                $"Field '{FIELD_NAME}' is not a text field.";
+                        }
+
+                        actualFieldName = field.Name;
+                    }
+
+                    // ----------------------------------------------------
+                    // Get selected features
+                    // ----------------------------------------------------
+                    using Selection selection = layer.GetSelection();
+
+                    var selectedOids = selection.GetObjectIDs();
+
+                    if (selectedOids.Count == 0)
+                    {
+                        return
+                            $"No features are selected in '{LAYER_NAME}'.";
+                    }
+
+                    // ----------------------------------------------------
+                    // Create ArcGIS Pro edit operation
+                    // ----------------------------------------------------
+                    EditOperation editOperation = new EditOperation
+                    {
+                        Name = "Convert Pipe To Exist"
+                    };
+
+                    int changedCount = 0;
+                    int alreadyExistCount = 0;
+
+                    // ----------------------------------------------------
+                    // Process selected features
+                    // ----------------------------------------------------
+                    foreach (long oid in selectedOids)
+                    {
+                        Inspector inspector = new Inspector();
+
+                        inspector.Load(layer, oid);
+
+                        object value = inspector[actualFieldName];
+
+                        string currentText =
+                            value == null || value == DBNull.Value
+                                ? ""
+                                : value.ToString();
+
+                        currentText = currentText.Trim();
+
+                        // ------------------------------------------------
+                        // Check whether it already starts with Exist
+                        //
+                        // Valid examples:
+                        //
+                        // Exist
+                        //
+                        // Exist - 8'' CS API-5L GR.B SCH.80 PE-COATED
+                        // ------------------------------------------------
+                        bool alreadyExist =
+                            currentText.Equals(
+                                "Exist",
+                                StringComparison.OrdinalIgnoreCase)
+                            ||
+                            currentText.StartsWith(
+                                "Exist - ",
+                                StringComparison.OrdinalIgnoreCase);
+
+                        if (alreadyExist)
+                        {
+                            alreadyExistCount++;
+                            continue;
+                        }
+
+                        // ------------------------------------------------
+                        // Create new text
+                        // ------------------------------------------------
+                        string newText;
+
+                        if (string.IsNullOrWhiteSpace(currentText))
+                        {
+                            newText = "Exist";
+                        }
+                        else
+                        {
+                            newText = $"Exist - {currentText}";
+                        }
+
+                        // ------------------------------------------------
+                        // Update attribute
+                        // ------------------------------------------------
+                        inspector[actualFieldName] = newText;
+
+                        editOperation.Modify(inspector);
+
+                        changedCount++;
+                    }
+
+                    // ----------------------------------------------------
+                    // Nothing needed changing
+                    // ----------------------------------------------------
+                    if (changedCount == 0)
+                    {
+                        return
+                            "No changes were needed.\n\n" +
+                            $"{alreadyExistCount} selected feature(s) " +
+                            "already contain 'Exist'.";
+                    }
+
+                    // ----------------------------------------------------
+                    // Execute edits
+                    // ----------------------------------------------------
+                    bool success = editOperation.Execute();
+
+                    if (!success)
+                    {
+                        return
+                            "Edit operation failed.\n\n" +
+                            editOperation.ErrorMessage;
+                    }
+
+                    return
+                        "Completed successfully.\n\n" +
+                        $"Updated: {changedCount}\n" +
+                        $"Already Exist: {alreadyExistCount}";
+                });
+
+                MessageBox.Show(
+                    resultMessage,
+                    "Convert To Exist");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"An error occurred:\n\n{ex.Message}",
+                    "Convert To Exist");
             }
         }
         public class ComboBoxItemCode

@@ -10,13 +10,25 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Config.daml" />
+    <None Remove="Images\Fa-Team-Fontawesome-FontAwesome-Scissors.16.png" />
+    <None Remove="Images\Fa-Team-Fontawesome-FontAwesome-Scissors.32.png" />
+    <None Remove="Images\Icons8-Windows-8-Database-Backup.16.png" />
+    <None Remove="Images\Icons8-Windows-8-Database-Backup.32.png" />
+    <None Remove="Images\Steve-Zondicons-List-Add.16.png" />
+    <None Remove="Images\Steve-Zondicons-List-Add.32.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config.daml" />    
     <Content Include="Images\AddInDesktop16.png" />
     <Content Include="Images\AddInDesktop32.png" />
     <Content Include="DarkImages\AddInDesktop16.png" />
-    <Content Include="DarkImages\AddInDesktop32.png" />    
+    <Content Include="DarkImages\AddInDesktop32.png" />
+    <Content Include="Images\Fa-Team-Fontawesome-FontAwesome-Scissors.16.png" />
+    <Content Include="Images\Fa-Team-Fontawesome-FontAwesome-Scissors.32.png" />
+    <Content Include="Images\Icons8-Windows-8-Database-Backup.16.png" />
+    <Content Include="Images\Icons8-Windows-8-Database-Backup.32.png" />
+    <Content Include="Images\Steve-Zondicons-List-Add.16.png" />
+    <Content Include="Images\Steve-Zondicons-List-Add.32.png" />    
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\launchSettings.json" />

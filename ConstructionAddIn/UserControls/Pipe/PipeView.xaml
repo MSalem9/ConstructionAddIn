@@ -45,8 +45,10 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
+                    <!--  Pipe Icon  -->
                     <Border
                         Grid.Column="0"
                         Width="28"
@@ -66,6 +68,7 @@
                             Kind="Pipe" />
                     </Border>
 
+                    <!--  Title  -->
                     <TextBlock
                         Grid.Column="1"
                         VerticalAlignment="Center"
@@ -74,8 +77,48 @@
                         Foreground="White"
                         Text="Pipe" />
 
+                    <!--  Convert To Exist  -->
                     <Button
                         Grid.Column="2"
+                        Width="auto"
+                        Height="30"
+                        Margin="0,0,10,0"
+                        Padding="8,0"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        materialDesign:RippleAssist.Feedback="#1565C0"
+                        Background="White"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding ConvertToExist}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        ToolTip="Convert selected pipe to Exist">
+
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+
+                            <materialDesign:PackIcon
+                                Width="18"
+                                Height="18"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center"
+                                Foreground="#1565C0"
+                                Kind="TransferRight" />
+
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="Bold"
+                                Foreground="#1565C0"
+                                Text="Convert to Exist" />
+
+                        </StackPanel>
+                    </Button>
+
+                    <!--  Refresh  -->
+                    <Button
+                        Grid.Column="3"
                         Width="28"
                         Height="28"
                         Padding="0"
@@ -93,6 +136,7 @@
                             Foreground="#1565C0"
                             Kind="Refresh" />
                     </Button>
+
                 </Grid>
             </Border>
 
@@ -103,12 +147,12 @@
                 HorizontalAlignment="Stretch"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">-->
 
-                <!--<TreeViewItem
+            <!--<TreeViewItem
                     HorizontalContentAlignment="Stretch"
                     Background="White"
                     IsExpanded="True">-->
 
-                    <!--<TreeViewItem.Header>
+            <!--<TreeViewItem.Header>
                         <ToggleButton
                             Height="50"
                             Margin="15,0,0,0"
@@ -144,124 +188,124 @@
                         </ToggleButton>
                     </TreeViewItem.Header>-->
 
-                    <Border
-                        Padding="10"
-                        Background="#F1F8FF"
-                        BorderBrush="#1976D2"
-                        BorderThickness="1"
+            <Border
+                Grid.Row="1"
+                Padding="10"
+                Background="#F1F8FF"
+                BorderBrush="#1976D2"
+                BorderThickness="1"
+                CornerRadius="12">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Line Name  -->
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="18"
+                                Height="18"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center"
+                                Foreground="#1976D2"
+                                Kind="FormTextbox" />
+                            <TextBlock
+                                FontSize="13"
+                                FontWeight="Bold"
+                                Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                                Text="Line Name" />
+                        </StackPanel>
+
+                        <TextBox
+                            Height="40"
+                            Margin="0,8,0,0"
+                            Padding="10,0,10,0"
+                            materialDesign:HintAssist.Hint="Enter line name"
+                            materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                            Background="White"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Text="{Binding SelectedPipeLineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <!--  Optional Details  -->
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="2">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="18"
+                                Height="18"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center"
+                                Foreground="#1976D2"
+                                Kind="TextBoxOutline" />
+                            <TextBlock
+                                FontSize="13"
+                                FontWeight="Bold"
+                                Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                                Text="Optional Comments" />
+                        </StackPanel>
+
+                        <TextBox
+                            Height="40"
+                            Margin="0,8,0,0"
+                            Padding="10,0,10,0"
+                            materialDesign:HintAssist.Hint="Optional Comments"
+                            materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                            Background="White"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            Text="{Binding OptionalComments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <!--  Project Name  -->
+                    <StackPanel
                         Grid.Row="1"
-                        CornerRadius="12">
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="2,10,2,2">
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="18"
+                                Height="18"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center"
+                                Foreground="#1976D2"
+                                Kind="OfficeBuilding" />
+                            <TextBlock
+                                FontSize="13"
+                                FontWeight="Bold"
+                                Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                                Text="Project Name" />
+                        </StackPanel>
 
-                            <!--  Line Name  -->
-                            <StackPanel
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                Margin="2">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon
-                                        Width="18"
-                                        Height="18"
-                                        Margin="0,0,6,0"
-                                        VerticalAlignment="Center"
-                                        Foreground="#1976D2"
-                                        Kind="FormTextbox" />
-                                    <TextBlock
-                                        FontSize="13"
-                                        FontWeight="Bold"
-                                        Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
-                                        Text="Line Name" />
-                                </StackPanel>
-
-                                <TextBox
-                                    Height="40"
-                                    Margin="0,8,0,0"
-                                    Padding="10,0,10,0"
-                                    materialDesign:HintAssist.Hint="Enter line name"
-                                    materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                    Background="White"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                    Text="{Binding SelectedPipeLineName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </StackPanel>
-
-                            <!--  Optional Details  -->
-                            <StackPanel
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Margin="2">
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon
-                                        Width="18"
-                                        Height="18"
-                                        Margin="0,0,6,0"
-                                        VerticalAlignment="Center"
-                                        Foreground="#1976D2"
-                                        Kind="TextBoxOutline" />
-                                    <TextBlock
-                                        FontSize="13"
-                                        FontWeight="Bold"
-                                        Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
-                                        Text="Optional Comments" />
-                                </StackPanel>
-
-                                <TextBox
-                                    Height="40"
-                                    Margin="0,8,0,0"
-                                    Padding="10,0,10,0"
-                                    materialDesign:HintAssist.Hint="Optional Comments"
-                                    materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                    Background="White"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                    Text="{Binding OptionalComments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </StackPanel>
-
-                            <!--  Project Name  -->
-                            <StackPanel
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Margin="2,10,2,2">
-
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon
-                                        Width="18"
-                                        Height="18"
-                                        Margin="0,0,6,0"
-                                        VerticalAlignment="Center"
-                                        Foreground="#1976D2"
-                                        Kind="OfficeBuilding" />
-                                    <TextBlock
-                                        FontSize="13"
-                                        FontWeight="Bold"
-                                        Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
-                                        Text="Project Name" />
-                                </StackPanel>
-
-                                <ComboBox
-                                    Height="40"
-                                    Margin="0,8,0,0"
-                                    Padding="10,0,10,0"
-                                    materialDesign:HintAssist.Hint="Enter project name"
-                                    materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                    Background="White"
-                                    IsEditable="True"
-                                    IsTextSearchEnabled="True"
-                                    ItemsSource="{Binding ProjectsName}"
-                                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                    Text="{Binding SelectedProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                <!--</TreeViewItem>
+                        <ComboBox
+                            Height="40"
+                            Margin="0,8,0,0"
+                            Padding="10,0,10,0"
+                            materialDesign:HintAssist.Hint="Enter project name"
+                            materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                            Background="White"
+                            IsEditable="True"
+                            IsTextSearchEnabled="True"
+                            ItemsSource="{Binding ProjectsName}"
+                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                            Text="{Binding SelectedProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <!--</TreeViewItem>
             </TreeView>-->
 
             <!--  Pipe Sizes  -->
@@ -312,225 +356,225 @@
                         </ToggleButton>
                     </TreeViewItem.Header>-->
 
-                    <Border
-                        Padding="10"
-                        Background="#F1F8FF"
-                        BorderBrush="#1976D2"
-                        BorderThickness="1"
-                        Grid.Row="2"
-                        Margin="0,10,0,0"
-                        CornerRadius="12">
+            <Border
+                Grid.Row="2"
+                Margin="0,10,0,0"
+                Padding="10"
+                Background="#F1F8FF"
+                BorderBrush="#1976D2"
+                BorderThickness="1"
+                CornerRadius="12">
 
-                        <Grid Margin="4">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                <Grid Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0" Margin="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-                                <!--  Pipe Material  -->
-                                <StackPanel Grid.Column="0" Margin="0,0,2.5,0">
-                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <!--  Pipe Material  -->
+                        <StackPanel Grid.Column="0" Margin="0,0,2.5,0">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
-                                        <materialDesign:PackIcon
-                                            Width="18"
-                                            Height="18"
-                                            Margin="0,0,6,0"
-                                            VerticalAlignment="Center"
-                                            Foreground="#1976D2"
-                                            Kind="TextureBox" />
+                                <materialDesign:PackIcon
+                                    Width="18"
+                                    Height="18"
+                                    Margin="0,0,6,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="#1976D2"
+                                    Kind="TextureBox" />
 
-                                        <TextBlock
-                                            FontSize="13"
-                                            FontWeight="Bold"
-                                            Style="{DynamicResource MaterialDesignHeadline6TextBlock}">
+                                <TextBlock
+                                    FontSize="13"
+                                    FontWeight="Bold"
+                                    Style="{DynamicResource MaterialDesignHeadline6TextBlock}">
 
-                                            <TextBlock.Inlines>
-                                                <Run Text="Pipe Material" />
-                                                <Run Foreground="Red" Text=" *" />
-                                            </TextBlock.Inlines>
-                                        </TextBlock>
-                                    </StackPanel>
+                                    <TextBlock.Inlines>
+                                        <Run Text="Pipe Material" />
+                                        <Run Foreground="Red" Text=" *" />
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </StackPanel>
 
-                                    <ComboBox
-                                        Height="40"
-                                        Margin="0,8,0,0"
-                                        Padding="10,0,10,0"
-                                        materialDesign:HintAssist.Hint="Material"
-                                        materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                        Background="White"
-                                        DisplayMemberPath="Name"
-                                        ItemsSource="{Binding PipeMaterialList}"
-                                        SelectedItem="{Binding SelectedPipeMaterial}"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}" />
-                                </StackPanel>
+                            <ComboBox
+                                Height="40"
+                                Margin="0,8,0,0"
+                                Padding="10,0,10,0"
+                                materialDesign:HintAssist.Hint="Material"
+                                materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                                Background="White"
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding PipeMaterialList}"
+                                SelectedItem="{Binding SelectedPipeMaterial}"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                        </StackPanel>
 
-                                <!--  Pipe Diameter  -->
-                                <StackPanel Grid.Column="1" Margin="2.5,0,0,0">
-                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <!--  Pipe Diameter  -->
+                        <StackPanel Grid.Column="1" Margin="2.5,0,0,0">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 
-                                        <materialDesign:PackIcon
-                                            Width="18"
-                                            Height="18"
-                                            Margin="0,0,6,0"
-                                            VerticalAlignment="Center"
-                                            Foreground="#1976D2"
-                                            Kind="DiameterOutline" />
+                                <materialDesign:PackIcon
+                                    Width="18"
+                                    Height="18"
+                                    Margin="0,0,6,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="#1976D2"
+                                    Kind="DiameterOutline" />
 
-                                        <TextBlock
-                                            FontSize="13"
-                                            FontWeight="Bold"
-                                            Style="{DynamicResource MaterialDesignHeadline6TextBlock}">
+                                <TextBlock
+                                    FontSize="13"
+                                    FontWeight="Bold"
+                                    Style="{DynamicResource MaterialDesignHeadline6TextBlock}">
 
-                                            <TextBlock.Inlines>
-                                                <Run Text="Pipe Diameter" />
-                                                <Run Foreground="Red" Text=" *" />
-                                            </TextBlock.Inlines>
-                                        </TextBlock>
-                                    </StackPanel>
+                                    <TextBlock.Inlines>
+                                        <Run Text="Pipe Diameter" />
+                                        <Run Foreground="Red" Text=" *" />
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </StackPanel>
 
-                                    <ComboBox
-                                        Height="40"
-                                        Margin="0,8,0,0"
-                                        Padding="10,0,10,0"
-                                        materialDesign:HintAssist.Hint="Diameter"
-                                        materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                        Background="White"
-                                        DisplayMemberPath="Name"
-                                        IsEnabled="{Binding IsPipeDiameterActive}"
-                                        ItemsSource="{Binding AvailablePipeDiameterList}"
-                                        SelectedItem="{Binding SelectedPipeDiameter}"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}" />
-                                </StackPanel>
+                            <ComboBox
+                                Height="40"
+                                Margin="0,8,0,0"
+                                Padding="10,0,10,0"
+                                materialDesign:HintAssist.Hint="Diameter"
+                                materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                                Background="White"
+                                DisplayMemberPath="Name"
+                                IsEnabled="{Binding IsPipeDiameterActive}"
+                                ItemsSource="{Binding AvailablePipeDiameterList}"
+                                SelectedItem="{Binding SelectedPipeDiameter}"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                        </StackPanel>
 
-                                <!--  Pipe Description  -->
-                                <StackPanel
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Grid.ColumnSpan="2"
-                                    Margin="0,10,0,0">
+                        <!--  Pipe Description  -->
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Margin="0,10,0,0">
 
-                                    <!--  Description header and boolean checkbox  -->
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-
-                                        <StackPanel
-                                            Grid.Column="0"
-                                            VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-
-                                            <materialDesign:PackIcon
-                                                Width="18"
-                                                Height="18"
-                                                Margin="0,0,6,0"
-                                                VerticalAlignment="Center"
-                                                Foreground="#1976D2"
-                                                Kind="TextBoxOutline" />
-
-                                            <TextBlock
-                                                FontSize="13"
-                                                FontWeight="Bold"
-                                                Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
-                                                Text="Pipe Description" />
-                                        </StackPanel>
-
-                                        <CheckBox
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            FontSize="14"
-                                            Padding="0"
-                                            Margin="0,0,10,0"
-                                            FontWeight="Bold"
-                                            Content="Exist Line"
-                                            IsChecked="{Binding IsPipeExistEnabled}"
-                                            Style="{StaticResource MaterialDesignCheckBox}" />
-                                    </Grid>
-
-                                    <ComboBox
-                                        Height="40"
-                                        Margin="0,8,0,0"
-                                        Padding="10,0,10,0"
-                                        materialDesign:HintAssist.Hint="Description"
-                                        materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
-                                        Background="White"
-                                        IsEnabled="{Binding IsPipeDescriptionEnabled}"
-                                        ItemsSource="{Binding AvailablePipeDescriptionList}"
-                                        SelectedItem="{Binding SelectedPipeDescription}"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}" />
-                                </StackPanel>
-                            </Grid>
-
-                            <!--  Action buttons  -->
-                            <Grid Grid.Row="2" Margin="5,15,5,2">
+                            <!--  Description header and boolean checkbox  -->
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <!--  Draw  -->
-                                <Button
+                                <StackPanel
                                     Grid.Column="0"
-                                    Height="40"
-                                    Margin="0,0,8,0"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    Command="{Binding StartDrawing}"
-                                    CommandParameter="{Binding SelectedPipeDiameter.Code}"
-                                    Foreground="White"
-                                    Style="{StaticResource MaterialDesignRaisedButton}">
-
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon
-                                            Width="20"
-                                            Height="20"
-                                            Margin="0,0,8,0"
-                                            Kind="VectorLine" />
-
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            FontSize="16"
-                                            Text="{Binding DrawButtonText}" />
-                                    </StackPanel>
-                                </Button>
-
-                                <!--  Delete  -->
-                                <Button
-                                    Grid.Column="1"
-                                    Width="45"
-                                    Height="40"
-                                    Padding="0"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    Background="#D32F2F"
-                                    BorderBrush="#D32F2F"
-                                    Command="{Binding DeleteLine}"
-                                    CommandParameter="{Binding DeleteCommandParameter}"
-                                    Foreground="White"
-                                    Style="{StaticResource MaterialDesignRaisedButton}"
-                                    ToolTip="{Binding DeleteButtonToolTip}">
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
 
                                     <materialDesign:PackIcon
-                                        Width="22"
-                                        Height="22"
-                                        Foreground="White"
-                                        Kind="Delete" />
-                                </Button>
+                                        Width="18"
+                                        Height="18"
+                                        Margin="0,0,6,0"
+                                        VerticalAlignment="Center"
+                                        Foreground="#1976D2"
+                                        Kind="TextBoxOutline" />
+
+                                    <TextBlock
+                                        FontSize="13"
+                                        FontWeight="Bold"
+                                        Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                                        Text="Pipe Description" />
+                                </StackPanel>
+
+                                <CheckBox
+                                    Grid.Column="1"
+                                    Margin="0,0,10,0"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    Content="Exist Line"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    IsChecked="{Binding IsPipeExistEnabled}"
+                                    Style="{StaticResource MaterialDesignCheckBox}" />
                             </Grid>
-                        </Grid>
-                    </Border>
-                <!--</TreeViewItem>
+
+                            <ComboBox
+                                Height="40"
+                                Margin="0,8,0,0"
+                                Padding="10,0,10,0"
+                                materialDesign:HintAssist.Hint="Description"
+                                materialDesign:TextFieldAssist.TextFieldCornerRadius="10"
+                                Background="White"
+                                IsEnabled="{Binding IsPipeDescriptionEnabled}"
+                                ItemsSource="{Binding AvailablePipeDescriptionList}"
+                                SelectedItem="{Binding SelectedPipeDescription}"
+                                Style="{StaticResource MaterialDesignOutlinedComboBox}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  Action buttons  -->
+                    <Grid Grid.Row="2" Margin="5,15,5,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Draw  -->
+                        <Button
+                            Grid.Column="0"
+                            Height="40"
+                            Margin="0,0,8,0"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Command="{Binding StartDrawing}"
+                            CommandParameter="{Binding SelectedPipeDiameter.Code}"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignRaisedButton}">
+
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon
+                                    Width="20"
+                                    Height="20"
+                                    Margin="0,0,8,0"
+                                    Kind="VectorLine" />
+
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Text="{Binding DrawButtonText}" />
+                            </StackPanel>
+                        </Button>
+
+                        <!--  Delete  -->
+                        <Button
+                            Grid.Column="1"
+                            Width="45"
+                            Height="40"
+                            Padding="0"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Background="#D32F2F"
+                            BorderBrush="#D32F2F"
+                            Command="{Binding DeleteLine}"
+                            CommandParameter="{Binding DeleteCommandParameter}"
+                            Foreground="White"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            ToolTip="{Binding DeleteButtonToolTip}">
+
+                            <materialDesign:PackIcon
+                                Width="22"
+                                Height="22"
+                                Foreground="White"
+                                Kind="Delete" />
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
+            <!--</TreeViewItem>
             </TreeView>-->
         </Grid>
     </ScrollViewer>

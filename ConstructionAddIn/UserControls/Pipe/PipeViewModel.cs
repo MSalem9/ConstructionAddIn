@@ -278,14 +278,14 @@ namespace ConstructionAddIn.UserControls.Pipe
         private readonly ObservableCollection<ComboBoxItemCode> _steelPipeDiameterList
             = new ObservableCollection<ComboBoxItemCode>
             {
-                new ComboBoxItemCode { Name = "3''",  Value = 3 },
-                new ComboBoxItemCode { Name = "4''",  Value = 4 },
-                new ComboBoxItemCode { Name = "6''",  Value = 6 },
-                new ComboBoxItemCode { Name = "8''",  Value = 8 },
-                new ComboBoxItemCode { Name = "10''", Value = 10 },
-                new ComboBoxItemCode { Name = "12''", Value = 12 },
-                new ComboBoxItemCode { Name = "14''", Value = 14 },
-                new ComboBoxItemCode { Name = "16''", Value = 16 },
+                new ComboBoxItemCode { Name = "3"+'"' ,  Value = 3 },
+                new ComboBoxItemCode { Name = "4"+'"' ,  Value = 4 },
+                new ComboBoxItemCode { Name = "6"+'"' ,  Value = 6 },
+                new ComboBoxItemCode { Name = "8"+'"' ,  Value = 8 },
+                new ComboBoxItemCode { Name = "10"+'"' , Value = 10 },
+                new ComboBoxItemCode { Name = "12"+'"' , Value = 12 },
+                new ComboBoxItemCode { Name = "14"+'"' , Value = 14 },
+                new ComboBoxItemCode { Name = "16"+'"' , Value = 16 },
             };
         private readonly ObservableCollection<string> _pePipeDescriptionList
             = new ObservableCollection<string>

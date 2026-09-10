@@ -1,116 +1,170 @@
 ﻿<ArcGIS defaultAssembly="ConstructionAddIn.dll" defaultNamespace="ConstructionAddIn" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
-  <AddInInfo id="{2f37d5e1-298a-4cc7-8dd6-f5e12f70bb2b}" version="1.0" desktopVersion="3.4.55405" product="ArcGISPro">
-    <Name>ConstructionAddIn</Name>
-    <Description>ConstructionAddIn description</Description>
-    <Image>Images\AddinDesktop32.png</Image>
-    <Author>Mahmoud.Salem.51275</Author>
-    <Company>Acme</Company>
-    <Date>5/11/2026 12:15:15 PM</Date>
-    <Subject>Framework</Subject>
-  </AddInInfo>
-  <modules>
-    <insertModule id="ConstructionAddIn_Module" className="Module1" autoLoad="false" caption="Module1">
-      <tabs>
-        <!-- Create a separate tab for Construction Tools -->
-        <tab id="ConstructionAddIn_Tab_Construction" caption="Construction Tools">
-          <group refID="ConstructionAddIn_Group_Construction" />
-        </tab>
-      </tabs>
-      <groups>
-        <!-- This group appears on the "Construction Tools" tab -->
-        <group id="ConstructionAddIn_Group_Construction" caption="Construction Tools" appearsOnAddInTab="false">
-          <button refID="ConstructionAddIn_Dockpanes_MainDockpane_Construction_ShowButton" size="large" />
-          <tool refID="ConstructionAddIn_Tools_ServiceTools_DrawSquareClipTool" size="large" />
-          <button refID="ConstructionAddIn_Buttons_ResetExtent" size="large" />
-          <button refID="ConstructionAddIn_Buttons_RefreshEnterpriseConnection" size="large" />
-        </group>
-        <!-- This group appears on the AddIn tab -->
-        <group id="ConstructionAddIn_Group1" caption="Group 1" appearsOnAddInTab="true">
-          <!-- host controls within groups -->
-          <button refID="ConstructionAddIn_Dockpanes_MainDockpane_Construction_ShowButton" size="large" />
-          <tool refID="ConstructionAddIn_Tools_AddingTools_CreateLineTool" size="large" />
-          <tool refID="ConstructionAddIn_Tools_RemovingTools_RemoveLineTool" size="large" />
-          <tool refID="ConstructionAddIn_Tools_AddingTools_CreateCrossingTool" size="large" />
-          <tool refID="ConstructionAddIn_Tools_AddingTools_CreatePointFeatureTool" size="large" />
-        </group>
-      </groups>
-      <controls>
-        <!-- Dockpane Show Button -->
-		  <button
-			  id="ConstructionAddIn_Dockpanes_MainDockpane_Construction_ShowButton"
-			  caption="Show Construction"
-			  className="ConstructionAddIn.Dockpanes.MainDockpane.Construction_ShowButton"
-			  loadOnClick="true"
-			  smallImage="Images/Steve-Zondicons-List-Add.16.png"
-			  largeImage="Images/Steve-Zondicons-List-Add.32.png">
+	<AddInInfo id="{2f37d5e1-298a-4cc7-8dd6-f5e12f70bb2b}" version="1.0" desktopVersion="3.4.55405" product="ArcGISPro">
+		<Name>ConstructionAddIn</Name>
+		<Description>ConstructionAddIn description</Description>
+		<Image>Images\AddinDesktop32.png</Image>
+		<Author>Mahmoud.Salem.51275</Author>
+		<Company>Acme</Company>
+		<Date>5/11/2026 12:15:15 PM</Date>
+		<Subject>Framework</Subject>
+	</AddInInfo>
 
-			  <tooltip heading="Show Construction">
-				  Open the Construction dockpane
-				  <disabledText />
-			  </tooltip>
+	<modules>
+		<!-- Set autoLoad="true" so Module1.Initialize() runs immediately at startup -->
+		<insertModule id="ConstructionAddIn_Module" className="Module1" autoLoad="true" caption="Module1">
 
-		  </button>
-        <!-- Existing Tools -->
-        <tool id="ConstructionAddIn_Tools_RemovingTools_RemoveLineTool" caption="Remove Line" className="ConstructionAddIn.Tools.RemovingTools.RemoveLineTool" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" condition="esri_mapping_mapPane">
-          <tooltip heading="Remove Line">
-						Remove selected line<disabledText /></tooltip>
-        </tool>
-        <tool id="ConstructionAddIn_Tools_AddingTools_CreateLineTool" caption="Create Line" className="ConstructionAddIn.Tools.AddingTools.CreateLineTool" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" condition="esri_mapping_mapPane">
-          <tooltip heading="Create Line">
-						Create a new line<disabledText /></tooltip>
-        </tool>
-        <tool id="ConstructionAddIn_Tools_AddingTools_CreateCrossingTool" caption="Create Crossing" className="ConstructionAddIn.Tools.AddingTools.CreateCrossingTool" loadOnClick="true" smallImage="GenericButtonRed16" largeImage="GenericButtonRed32" condition="esri_mapping_mapPane">
-          <tooltip heading="Create Crossing">
-						Create a crossing<disabledText /></tooltip>
-        </tool>
-        <tool id="ConstructionAddIn_Tools_AddingTools_CreatePointFeatureTool" caption="Create Point Feature" className="ConstructionAddIn.Tools.AddingTools.CreatePointFeatureTool" loadOnClick="true" smallImage="Images\GenericButtonRed16.png" largeImage="Images\GenericButtonRed32.png">
-          <tooltip heading="Create Point Feature">
-						Create construction point fitting feature<disabledText /></tooltip>
-        </tool>
-        <!-- DRAW SQUARE CLIP TOOL -->
-		  <tool
-			  id="ConstructionAddIn_Tools_ServiceTools_DrawSquareClipTool"
-			  caption="Draw Clip"
-			  className="ConstructionAddIn.Tools.ServiceTools.DrawSquareClipTool"
-			  loadOnClick="true"
-			  smallImage="Images/Fa-Team-Fontawesome-FontAwesome-Scissors.16.png"
-			  largeImage="Images/Fa-Team-Fontawesome-FontAwesome-Scissors.32.png"
-			  condition="esri_mapping_mapPane">
+			<tabs>
+				<tab id="ConstructionAddIn_Tab_Construction" caption="Construction Tools">
+					<group refID="ConstructionAddIn_Group_Construction" />
+				</tab>
+			</tabs>
 
-			  <tooltip heading="Draw Square Clip">
-				  Click and drag to draw a square to clip the map
-				  <disabledText />
-			  </tooltip>
+			<groups>
+				<!-- Construction Tools Tab Group -->
+				<group id="ConstructionAddIn_Group_Construction" caption="Construction Tools" appearsOnAddInTab="false">
+					<button refID="ConstructionAddIn_Dockpanes_MainDockpane_Construction_ShowButton" size="large" />
+					<tool refID="ConstructionAddIn_Tools_ServiceTools_DrawSquareClipTool" size="large" />
+					<button refID="ConstructionAddIn_Buttons_ResetExtent" size="large" />
+					<button refID="ConstructionAddIn_Buttons_RefreshEnterpriseConnection" size="large" />
+				</group>
 
-		  </tool>
-        <!-- RESET EXTENT BUTTON -->
-        <button id="ConstructionAddIn_Buttons_ResetExtent" caption="Reset Extent" className="ConstructionAddIn.Buttons.ResetExtent" loadOnClick="true" smallImage="Refresh16" largeImage="Refresh32">
-          <tooltip heading="Reset Extent">
-						Clears clipping and returns to full extent<disabledText /></tooltip>
-        </button>
-        <button id="ConstructionAddIn_Buttons_ConvertToExist" caption="ConvertToExist" className="ConstructionAddIn.Buttons.ConvertToExist" loadOnClick="true" smallImage="GenericButtonBlue16" largeImage="GenericButtonBlue32">
-          <tooltip heading="Tooltip Heading">Tooltip text<disabledText /></tooltip>
-        </button>
-		  <button
-			id="ConstructionAddIn_Buttons_RefreshEnterpriseConnection"
-			caption="Refresh Enterprise Connection"
-			className="ConstructionAddIn.Buttons.RefreshEnterpriseConnection"
-			loadOnClick="true"
-			smallImage="Images/Icons8-Windows-8-Database-Backup.16.png"
-			largeImage="Images/Icons8-Windows-8-Database-Backup.32.png">
+				<!-- Default AddIn Tab Group -->
+				<group id="ConstructionAddIn_Group1" caption="Group 1" appearsOnAddInTab="true">
+					<button refID="ConstructionAddIn_Dockpanes_MainDockpane_Construction_ShowButton" size="large" />
+					<tool refID="ConstructionAddIn_Tools_AddingTools_CreateLineTool" size="large" />
+					<tool refID="ConstructionAddIn_Tools_RemovingTools_RemoveLineTool" size="large" />
+					<tool refID="ConstructionAddIn_Tools_AddingTools_CreateCrossingTool" size="large" />
+					<tool refID="ConstructionAddIn_Tools_AddingTools_CreatePointFeatureTool" size="large" />
+				</group>
+			</groups>
 
-			  <tooltip heading="Refresh Enterprise Connection">
-				  Refresh enterprise database connection.
-				  <disabledText />
-			  </tooltip>
+			<controls>
+				<!-- Dockpane Show Button -->
+				<button id="ConstructionAddIn_Dockpanes_MainDockpane_Construction_ShowButton"
+						caption="Show Construction"
+						className="ConstructionAddIn.Dockpanes.MainDockpane.Construction_ShowButton"
+						loadOnClick="true"
+						smallImage="Images/Steve-Zondicons-List-Add.16.png"
+						largeImage="Images/Steve-Zondicons-List-Add.32.png">
+					<tooltip heading="Show Construction">
+						Open the Construction dockpane
+						<disabledText />
+					</tooltip>
+				</button>
 
-		  </button>
-      </controls>
-      <dockPanes>
-        <dockPane id="ConstructionAddIn_Dockpanes_MainDockpane_Construction" caption="Construction" className="ConstructionAddIn.Dockpanes.MainDockpane.ConstructionViewModel" dock="group" dockWith="esri_core_projectDockPane">
-          <content className="ConstructionAddIn.Dockpanes.MainDockpane.ConstructionView" />
-        </dockPane>
-      </dockPanes>
-    </insertModule>
-  </modules>
+				<!-- Tools -->
+				<tool id="ConstructionAddIn_Tools_RemovingTools_RemoveLineTool"
+					  caption="Remove Line"
+					  className="ConstructionAddIn.Tools.RemovingTools.RemoveLineTool"
+					  loadOnClick="true"
+					  smallImage="GenericButtonRed16"
+					  largeImage="GenericButtonRed32"
+					  condition="esri_mapping_mapPane">
+					<tooltip heading="Remove Line">
+						Remove selected line
+						<disabledText />
+					</tooltip>
+				</tool>
+
+				<tool id="ConstructionAddIn_Tools_AddingTools_CreateLineTool"
+					  caption="Create Line"
+					  className="ConstructionAddIn.Tools.AddingTools.CreateLineTool"
+					  loadOnClick="true"
+					  smallImage="GenericButtonRed16"
+					  largeImage="GenericButtonRed32"
+					  condition="esri_mapping_mapPane">
+					<tooltip heading="Create Line">
+						Create a new line
+						<disabledText />
+					</tooltip>
+				</tool>
+
+				<tool id="ConstructionAddIn_Tools_AddingTools_CreateCrossingTool"
+					  caption="Create Crossing"
+					  className="ConstructionAddIn.Tools.AddingTools.CreateCrossingTool"
+					  loadOnClick="true"
+					  smallImage="GenericButtonRed16"
+					  largeImage="GenericButtonRed32"
+					  condition="esri_mapping_mapPane">
+					<tooltip heading="Create Crossing">
+						Create a crossing
+						<disabledText />
+					</tooltip>
+				</tool>
+
+				<tool id="ConstructionAddIn_Tools_AddingTools_CreatePointFeatureTool"
+					  caption="Create Point Feature"
+					  className="ConstructionAddIn.Tools.AddingTools.CreatePointFeatureTool"
+					  loadOnClick="true"
+					  smallImage="Images\GenericButtonRed16.png"
+					  largeImage="Images\GenericButtonRed32.png">
+					<tooltip heading="Create Point Feature">
+						Create construction point fitting feature
+						<disabledText />
+					</tooltip>
+				</tool>
+
+				<tool id="ConstructionAddIn_Tools_ServiceTools_DrawSquareClipTool"
+					  caption="Draw Clip"
+					  className="ConstructionAddIn.Tools.ServiceTools.DrawSquareClipTool"
+					  loadOnClick="true"
+					  smallImage="Images/Fa-Team-Fontawesome-FontAwesome-Scissors.16.png"
+					  largeImage="Images/Fa-Team-Fontawesome-FontAwesome-Scissors.32.png"
+					  condition="esri_mapping_mapPane">
+					<tooltip heading="Draw Square Clip">
+						Click and drag to draw a square to clip the map
+						<disabledText />
+					</tooltip>
+				</tool>
+
+				<!-- Buttons -->
+				<button id="ConstructionAddIn_Buttons_ResetExtent"
+						caption="Reset Extent"
+						className="ConstructionAddIn.Buttons.ResetExtent"
+						loadOnClick="true"
+						smallImage="Refresh16"
+						largeImage="Refresh32">
+					<tooltip heading="Reset Extent">
+						Clears clipping and returns to full extent
+						<disabledText />
+					</tooltip>
+				</button>
+
+				<button id="ConstructionAddIn_Buttons_ConvertToExist"
+						caption="ConvertToExist"
+						className="ConstructionAddIn.Buttons.ConvertToExist"
+						loadOnClick="true"
+						smallImage="GenericButtonBlue16"
+						largeImage="GenericButtonBlue32">
+					<tooltip heading="Tooltip Heading">
+						Tooltip text
+						<disabledText />
+					</tooltip>
+				</button>
+
+				<button id="ConstructionAddIn_Buttons_RefreshEnterpriseConnection"
+						caption="Refresh Enterprise Connection"
+						className="ConstructionAddIn.Buttons.RefreshEnterpriseConnection"
+						loadOnClick="true"
+						smallImage="Images/Icons8-Windows-8-Database-Backup.16.png"
+						largeImage="Images/Icons8-Windows-8-Database-Backup.32.png">
+					<tooltip heading="Refresh Enterprise Connection">
+						Refresh enterprise database connection.
+						<disabledText />
+					</tooltip>
+				</button>
+			</controls>
+
+			<dockPanes>
+				<dockPane id="ConstructionAddIn_Dockpanes_MainDockpane_Construction"
+						  caption="Construction"
+						  className="ConstructionAddIn.Dockpanes.MainDockpane.ConstructionViewModel"
+						  dock="group"
+						  dockWith="esri_core_projectDockPane">
+					<content className="ConstructionAddIn.Dockpanes.MainDockpane.ConstructionView" />
+				</dockPane>
+			</dockPanes>
+
+		</insertModule>
+	</modules>
 </ArcGIS>

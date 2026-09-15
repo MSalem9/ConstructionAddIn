@@ -26,8 +26,6 @@ namespace ConstructionAddIn.Tools.AddingTools
         /// Initializes the tool as a point sketch tool.
         /// The user clicks once on the map to place the fitting.
         /// </summary>
-        /// 
-
         public CreatePointFeatureTool()
         {
             IsSketchTool = true;
@@ -36,21 +34,6 @@ namespace ConstructionAddIn.Tools.AddingTools
 
             UseSnapping = true;
         }
-
-        //public CreatePointFeatureTool()
-        //{
-        //    IsSketchTool = true;
-        //    SketchType = SketchGeometryType.Point;
-        //    SketchOutputMode = SketchOutputMode.Map;
-        //}
-        //public CreatePointFeatureTool()
-        //{
-        //    ArcGIS.Desktop.Framework.Dialogs.MessageBox.Show("CreatePointFeatureTool constructor reached");
-
-        //    IsSketchTool = true;
-        //    SketchType = SketchGeometryType.Point;
-        //    SketchOutputMode = SketchOutputMode.Map;
-        //}
 
         /// <summary>
         /// Runs when the user clicks on the map.
@@ -66,7 +49,18 @@ namespace ConstructionAddIn.Tools.AddingTools
             if (request == null)
                 return false;
 
-            bool created = await PointFeatureCreationService.CreateAsync(mapPoint, request);
+            bool created = false;
+            try
+            {
+                // Authorize point creation through CreationController
+                CreationController.IsAddInCreating = true;
+                created = await PointFeatureCreationService.CreateAsync(mapPoint, request);
+            }
+            finally
+            {
+                // Re-lock creation so native tools remain blocked
+                CreationController.IsAddInCreating = false;
+            }
 
             if (!request.KeepToolActiveAfterCreate)
                 PointDrawContext.CurrentRequest = null;

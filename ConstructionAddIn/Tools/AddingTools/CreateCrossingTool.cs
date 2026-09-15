@@ -15,6 +15,7 @@ using ArcGIS.Desktop.Mapping;
 using ConstructionAddIn.Helpers;
 using ConstructionAddIn.Helpers.LineHelpers;
 using ConstructionAddIn.Helpers.PolygonHelpers;
+using ConstructionAddIn.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace ConstructionAddIn.Tools.AddingTools
             // This tool uses a user sketch to create geometry.
             IsSketchTool = true;
 
-            // The user will draw a line.
+            // The user will draw an angled ellipse.
             SketchType = SketchGeometryType.AngledEllipse;
 
             // The sketch geometry is returned in map coordinates.
@@ -91,7 +92,6 @@ namespace ConstructionAddIn.Tools.AddingTools
         /// </summary>
         /// <param name="geometry">The completed sketch geometry.</param>
         /// <returns>True if the line was successfully created and saved; otherwise false.</returns>
-
         protected override async Task<bool> OnSketchCompleteAsync(Geometry geometry)
         {
             // Validate that the sketch is a non-empty polygon
@@ -195,11 +195,6 @@ namespace ConstructionAddIn.Tools.AddingTools
                 lineLayer,
                 mergedAttributes);
 
-            // Add a calculated static attribute.
-            // PipeLen is set to the geometry length of the drawn line.
-
-            //editableAttributes["PipeLen"] = polyline.Length; // edit this
-
             // Build the final attribute dictionary used for feature creation.
             var createAttributes = BuildCreateAttributes(polyline, editableAttributes);
 
@@ -211,7 +206,19 @@ namespace ConstructionAddIn.Tools.AddingTools
 
             operation.Create(lineLayer, createAttributes);
 
-            bool ok = operation.Execute();
+            bool ok = false;
+            try
+            {
+                // Authorize creation through CreationController
+                CreationController.IsAddInCreating = true;
+                ok = operation.Execute();
+            }
+            finally
+            {
+                // Reset immediately to keep outside edits locked
+                CreationController.IsAddInCreating = false;
+            }
+
             if (!ok)
                 MessageBox.Show(operation.ErrorMessage, "Create failed");
 

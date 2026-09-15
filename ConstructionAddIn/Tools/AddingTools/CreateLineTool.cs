@@ -9,6 +9,7 @@ using ArcGIS.Desktop.Mapping;
 using ConstructionAddIn.Helpers;
 using ConstructionAddIn.Helpers.LineHelpers;
 using ConstructionAddIn.Helpers.PolygonHelpers;
+using ConstructionAddIn.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -93,7 +94,6 @@ namespace ConstructionAddIn.Tools.AddingTools
         /// </summary>
         /// <param name="geometry">The completed sketch geometry.</param>
         /// <returns>True if the line was successfully created and saved; otherwise false.</returns>
-
         protected override async Task<bool> OnSketchCompleteAsync(Geometry geometry)
         {
             // Validate that the sketch is a non-empty polyline.
@@ -186,11 +186,6 @@ namespace ConstructionAddIn.Tools.AddingTools
                 lineLayer,
                 mergedAttributes);
 
-            // Add a calculated static attribute.
-            // PipeLen is set to the geometry length of the drawn line.
-
-            //editableAttributes["PipeLen"] = polyline.Length; // edit this
-
             // Build the final attribute dictionary used for feature creation.
             var createAttributes = BuildCreateAttributes(polyline, editableAttributes);
 
@@ -202,7 +197,19 @@ namespace ConstructionAddIn.Tools.AddingTools
 
             operation.Create(lineLayer, createAttributes);
 
-            bool ok = operation.Execute();
+            bool ok = false;
+            try
+            {
+                // Authorize this specific operation through CreationController
+                CreationController.IsAddInCreating = true;
+                ok = operation.Execute();
+            }
+            finally
+            {
+                // Immediately reset the gatekeeper flag so outside edits remain protected
+                CreationController.IsAddInCreating = false;
+            }
+
             if (!ok)
                 MessageBox.Show(operation.ErrorMessage, "Create failed");
 

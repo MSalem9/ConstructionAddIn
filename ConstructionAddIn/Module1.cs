@@ -27,54 +27,50 @@ namespace ConstructionAddIn
     {
         private static Module1 _this = null;
 
-        /// <summary>
-        /// Retrieve the singleton instance to this module here
-        /// </summary>
         public static Module1 Current => _this ??= (Module1)FrameworkApplication.FindModule("ConstructionAddIn_Module");
 
         #region Overrides
 
-        /// <summary>
-        /// Called by Framework when the module loads (ArcGIS Pro startup).
-        /// </summary>
         protected override bool Initialize()
         {
-            // Initial binding if a map view is already loaded
+            // Initial binding if a map view is already active
             if (MapView.Active != null)
             {
                 DeletionController.InitializeProtection();
+                CreationController.InitializeProtection();
             }
 
-            // Re-bind when switching between map tabs or opening a new map
+            // Re-bind when switching maps or opening a new map view
             ActiveMapViewChangedEvent.Subscribe(args =>
             {
                 if (args.IncomingView != null)
                 {
                     DeletionController.InitializeProtection();
+                    CreationController.InitializeProtection();
                 }
             });
 
-            // Re-bind when layers are added or removed dynamically
+            // Re-bind when layers are added dynamically
             LayersAddedEvent.Subscribe(args =>
             {
                 DeletionController.InitializeProtection();
+                CreationController.InitializeProtection();
             });
 
+            // Re-bind when layers are removed
             LayersRemovedEvent.Subscribe(args =>
             {
                 DeletionController.InitializeProtection();
+                CreationController.InitializeProtection();
             });
 
             return base.Initialize();
         }
 
-        /// <summary>
-        /// Called by Framework when ArcGIS Pro is closing.
-        /// </summary>
-        /// <returns>False to prevent Pro from closing, otherwise True</returns>
         protected override bool CanUnload()
         {
             DeletionController.Unsubscribe();
+            CreationController.Unsubscribe();
             return true;
         }
 

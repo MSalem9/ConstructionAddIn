@@ -32,12 +32,25 @@ namespace ConstructionAddIn.UserControls.Pipe
         private string _selectedPipeDescription;
         private bool _isPipeDiameterActive = false;
         private bool _isPipeExistEnabled = false;
+        private bool _isPipeDescriptionEnabled = false;
         private string _isPipeExist = null;
 
         private ObservableCollection<string> _projectsName;
         private ObservableCollection<string> _PipeLinesName;
 
         // Properties
+        public bool IsPipeDescriptionEnabled 
+        {
+            get => _isPipeDescriptionEnabled;
+            set 
+            {
+                if (_isPipeDescriptionEnabled != value)
+                {
+                    _isPipeDescriptionEnabled = value;
+                    OnPropertyChanged(nameof(IsPipeDescriptionEnabled));
+                }
+            }
+        }
         public bool IsPipeExistEnabled
         {
             get => _isPipeExistEnabled;
@@ -217,6 +230,7 @@ namespace ConstructionAddIn.UserControls.Pipe
                     _selectedPipeMaterial = value;
 
                     SelectedPipeDiameter = null;
+                    IsPipeDescriptionEnabled = true;
                     IsPipeDiameterActive = true;
 
                     OnPropertyChanged(nameof(SelectedPipeMaterial));

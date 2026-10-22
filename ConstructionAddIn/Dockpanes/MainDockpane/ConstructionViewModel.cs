@@ -12,11 +12,13 @@ using ArcGIS.Desktop.Framework.Threading.Tasks;
 using ArcGIS.Desktop.KnowledgeGraph;
 using ArcGIS.Desktop.Layouts;
 using ArcGIS.Desktop.Mapping;
+using ConstructionAddIn.Services.EnterpriseConnection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ConstructionAddIn.Dockpanes.MainDockpane
 {
@@ -24,7 +26,39 @@ namespace ConstructionAddIn.Dockpanes.MainDockpane
     {
         private const string _dockPaneID = "ConstructionAddIn_Dockpanes_MainDockpane_Construction";
 
-        protected ConstructionViewModel() { }
+        protected ConstructionViewModel()
+        {
+            ReconnectCommand = new ArcGIS.Desktop.Framework.RelayCommand(
+                async () => await EnterpriseConnectionService.ReconnectAsync());
+
+            EnterpriseConnectionMonitor.StatusChanged += OnConnectionStatusChanged;
+        }
+
+        #region Enterprise connection
+
+        /// <summary>False while the enterprise connection is lost: the whole form is disabled.</summary>
+        public bool IsEditingAllowed => EnterpriseConnectionMonitor.IsEditingAllowed;
+
+        /// <summary>Drives the red "connection lost" banner.</summary>
+        public bool IsConnectionLost => !EnterpriseConnectionMonitor.IsEditingAllowed;
+
+        public string ConnectionMessage =>
+            (EnterpriseConnectionMonitor.BlockReason ?? "Enterprise database connection lost.") +
+            " Editing is disabled until you reconnect.";
+
+        public ICommand ReconnectCommand { get; }
+
+        private void OnConnectionStatusChanged()
+        {
+            System.Windows.Application.Current?.Dispatcher.BeginInvoke(() =>
+            {
+                NotifyPropertyChanged(nameof(IsEditingAllowed));
+                NotifyPropertyChanged(nameof(IsConnectionLost));
+                NotifyPropertyChanged(nameof(ConnectionMessage));
+            });
+        }
+
+        #endregion
 
         /// <summary>
         /// Show the DockPane.

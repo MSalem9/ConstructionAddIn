@@ -14,6 +14,7 @@ using ArcGIS.Desktop.Layouts;
 using ArcGIS.Desktop.Mapping;
 using ArcGIS.Desktop.Mapping.Events;
 using ConstructionAddIn.Services;
+using ConstructionAddIn.Services.EnterpriseConnection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +65,9 @@ namespace ConstructionAddIn
                 CreationController.InitializeProtection();
             });
 
+            // Watch the enterprise database connection; disables editing when it is lost
+            EnterpriseConnectionMonitor.Start();
+
             return base.Initialize();
         }
 
@@ -71,6 +75,7 @@ namespace ConstructionAddIn
         {
             DeletionController.Unsubscribe();
             CreationController.Unsubscribe();
+            EnterpriseConnectionMonitor.Stop();
             return true;
         }
 

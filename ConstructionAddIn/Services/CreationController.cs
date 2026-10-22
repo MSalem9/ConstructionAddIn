@@ -3,6 +3,7 @@ using ArcGIS.Desktop.Editing.Events;
 using ArcGIS.Desktop.Framework;
 using ArcGIS.Desktop.Framework.Threading.Tasks;
 using ArcGIS.Desktop.Mapping;
+using ConstructionAddIn.Services.EnterpriseConnection;
 using System;
 using System.Collections.Generic;
 
@@ -50,6 +51,13 @@ namespace ConstructionAddIn.Services
 
         private static void OnRowCreated(RowChangedEventArgs args)
         {
+            // While the enterprise connection is lost, nothing may be created, not even by the Add-In
+            if (!EnterpriseConnectionMonitor.IsEditingAllowed)
+            {
+                args.CancelEdit("Editing is disabled because the enterprise database connection was lost. Use Refresh Enterprise Connection.", false);
+                return;
+            }
+
             // If the creation was triggered by our Add-In, allow it
             if (IsAddInCreating)
                 return;

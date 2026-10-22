@@ -59,7 +59,7 @@
 					  loadOnClick="true"
 					  smallImage="GenericButtonRed16"
 					  largeImage="GenericButtonRed32"
-					  condition="esri_mapping_mapPane">
+					  condition="ConstructionAddIn_MapPaneAndDbConnected">
 					<tooltip heading="Remove Line">
 						Remove selected line
 						<disabledText />
@@ -72,7 +72,7 @@
 					  loadOnClick="true"
 					  smallImage="GenericButtonRed16"
 					  largeImage="GenericButtonRed32"
-					  condition="esri_mapping_mapPane">
+					  condition="ConstructionAddIn_MapPaneAndDbConnected">
 					<tooltip heading="Create Line">
 						Create a new line
 						<disabledText />
@@ -85,7 +85,7 @@
 					  loadOnClick="true"
 					  smallImage="GenericButtonRed16"
 					  largeImage="GenericButtonRed32"
-					  condition="esri_mapping_mapPane">
+					  condition="ConstructionAddIn_MapPaneAndDbConnected">
 					<tooltip heading="Create Crossing">
 						Create a crossing
 						<disabledText />
@@ -97,7 +97,8 @@
 					  className="ConstructionAddIn.Tools.AddingTools.CreatePointFeatureTool"
 					  loadOnClick="true"
 					  smallImage="Images\GenericButtonRed16.png"
-					  largeImage="Images\GenericButtonRed32.png">
+					  largeImage="Images\GenericButtonRed32.png"
+					  condition="ConstructionAddIn_DbConnectedCondition">
 					<tooltip heading="Create Point Feature">
 						Create construction point fitting feature
 						<disabledText />
@@ -135,7 +136,8 @@
 						className="ConstructionAddIn.Buttons.ConvertToExist"
 						loadOnClick="true"
 						smallImage="GenericButtonBlue16"
-						largeImage="GenericButtonBlue32">
+						largeImage="GenericButtonBlue32"
+						condition="ConstructionAddIn_DbConnectedCondition">
 					<tooltip heading="Tooltip Heading">
 						Tooltip text
 						<disabledText />
@@ -149,7 +151,7 @@
 						smallImage="Images/Icons8-Windows-8-Database-Backup.16.png"
 						largeImage="Images/Icons8-Windows-8-Database-Backup.32.png">
 					<tooltip heading="Refresh Enterprise Connection">
-						Refresh enterprise database connection.
+						Reconnect to the enterprise database, check that all layers use it, and enable editing again.
 						<disabledText />
 					</tooltip>
 				</button>
@@ -167,4 +169,18 @@
 
 		</insertModule>
 	</modules>
+
+	<conditions>
+		<!-- Active while the enterprise database connection is OK (EnterpriseConnectionMonitor) -->
+		<insertCondition id="ConstructionAddIn_DbConnectedCondition" caption="Enterprise database connected">
+			<state id="ConstructionAddIn_DbConnected" />
+		</insertCondition>
+
+		<insertCondition id="ConstructionAddIn_MapPaneAndDbConnected" caption="Map view active and enterprise database connected">
+			<and>
+				<state id="esri_mapping_mapPane" />
+				<state id="ConstructionAddIn_DbConnected" />
+			</and>
+		</insertCondition>
+	</conditions>
 </ArcGIS>
